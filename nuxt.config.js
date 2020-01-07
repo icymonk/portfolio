@@ -17,11 +17,6 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
-    script: [
-      { src: '/__/firebase/7.6.1/firebase-app.js' },
-      { src: '/__/firebase/7.6.1/firebase-analytics.js' },
-      { src: '/__/firebase/init.js' },
-    ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
