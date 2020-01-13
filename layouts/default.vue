@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -23,11 +23,11 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn @click.stop="miniVariant = !miniVariant" icon>
+    <v-app-bar color="transparent" fixed flat>
+      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
+      <!-- <v-btn @click.stop="miniVariant = !miniVariant" icon>
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn @click.stop="clipped = !clipped" icon>
@@ -36,13 +36,33 @@
       <v-btn @click.stop="fixed = !fixed" icon>
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
-
+      <v-toolbar-title v-text="title" /> -->
       <v-spacer />
 
-      <v-btn @click.stop="rightDrawer = !rightDrawer" icon>
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <nuxt-link
+        class="mx-2 black--text"
+        style="text-decoration: none;"
+        to="/"
+        active-class="blue--text"
+        exact
+        >Home</nuxt-link
+      >
+      <nuxt-link
+        class="mx-2 black--text"
+        style="text-decoration: none;"
+        to="/portfolio"
+        active-class="blue--text"
+        exact
+        >Portfolio</nuxt-link
+      >
+      <nuxt-link
+        class="mx-2 black--text"
+        style="text-decoration: none;"
+        to="/about"
+        active-class="blue--text"
+        exact
+        >About</nuxt-link
+      >
     </v-app-bar>
 
     <v-content>
