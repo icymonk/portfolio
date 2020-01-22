@@ -1,13 +1,9 @@
 <template>
-  <v-layout row fill-height>
-    <v-flex v-for="company in companies" :key="company.title" xs12 sm4>
-      <v-hover v-slot:default="{ hover }">
-        <v-card
-          @click="openCompanyDialog(company)"
-          :style="{ opacity: hover ? 1 : 0.5 }"
-          height="100%"
-          flat
-        >
+  <v-container>
+    <v-timeline>
+      <v-timeline-item>2020! NOW</v-timeline-item>
+      <v-timeline-item v-for="(company, i) in companies" :key="company.title">
+        <v-card @click="openCompanyDialog(company)" height="100%" hover>
           <v-card-text class="px-4">
             <v-img
               :src="company.logo"
@@ -15,36 +11,31 @@
               height="120"
               class="my-4"
             ></v-img>
-            {{ company.name }} {{ company.description }}</v-card-text
-          >
-          <!-- <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn outlined="">프로젝트 보기</v-btn>
-        </v-card-actions> -->
+
+            <h4 :class="{ 'text-right': (i + 1) % 2 }">
+              {{ company.startAt }} ~ {{ company.endAt }}
+            </h4>
+
+            <p :class="{ 'text-right': (i + 1) % 2 }">
+              {{ company.name }} {{ company.description }}
+            </p>
+          </v-card-text>
         </v-card>
-      </v-hover>
-    </v-flex>
+      </v-timeline-item>
+    </v-timeline>
     <company-dialog
       v-model="companyDialog"
       v-bind="currentCompany"
-      @openProjectDialog="openProjectDialog"
     ></company-dialog>
-    <project-dialog
-      v-model="projectDialog"
-      v-bind="currentProject"
-      @openImageDialog="openImageDialog"
-    ></project-dialog>
-    <!-- <image-viewer v-model="imageDialog" :src="currentImage"></image-viewer> -->
-  </v-layout>
+  </v-container>
 </template>
 
 <script>
 import { Vue, Component } from 'nuxt-property-decorator'
 import CompanyDialog from '@/components/CompanyDialog'
-import ProjectDialog from '@/components/ProjectDialog'
 import ImageViewer from '@/components/ImageViewer'
 
-@Component({ components: { CompanyDialog, ProjectDialog, ImageViewer } })
+@Component({ components: { CompanyDialog, ImageViewer } })
 export default class Portfolio extends Vue {
   companies = [
     {
@@ -215,27 +206,11 @@ export default class Portfolio extends Vue {
       endAt: '2018-03',
     },
   ]
-
-  imageDialog = false
-  currentImage = null
-  openImageDialog(image) {
-    this.currentImage = image
-    this.imageDialog = true
-  }
-
   companyDialog = false
   currentCompany = null
   openCompanyDialog(company) {
     this.currentCompany = company
     this.companyDialog = true
-  }
-
-  projectDialog = false
-  currentProject = null
-  openProjectDialog(project) {
-    console.log(project)
-    this.currentProject = project
-    this.projectDialog = true
   }
 }
 </script>

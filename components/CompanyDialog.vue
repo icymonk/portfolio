@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="800">
+  <v-dialog v-model="dialog" width="1000">
     <v-card>
       <v-card-title
         >{{ name }} ({{ startAt }} ~ {{ endAt }})
@@ -8,19 +8,57 @@
         </v-btn>
       </v-card-title>
       <v-card-text>
-        {{ description }}
-        <v-layout row wrap justify-center align-center>
-          <v-card
+        <p class="">
+          {{ description }}
+        </p>
+
+        <v-tabs dark v-model="currentProject">
+          <v-tab
             v-for="project in projects"
             :key="project.name"
-            @click="openProjectDialog(project)"
-            width="200"
-            height="200"
-            class="ma-4"
+            :href="`#tab-${project.name}`"
           >
-            <v-card-title>{{ project.name }}</v-card-title>
-          </v-card>
-        </v-layout>
+            {{ project.name }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="currentProject">
+          <v-tab-item
+            v-for="project in projects"
+            :key="project.name"
+            :value="`tab-${project.name}`"
+          >
+            <p class="my-2">
+              {{ project.description }}
+            </p>
+            <v-carousel
+              height="540"
+              show-arrows-on-hover
+              cycle
+              interval="5000"
+              class="my-4"
+            >
+              <v-carousel-item
+                v-for="image in project.images"
+                :key="image"
+                :src="image"
+                :href="image"
+                target="_blank"
+              >
+              </v-carousel-item>
+            </v-carousel>
+            <ul class="mb-4">
+              <li
+                v-for="description in project.subDescriptions"
+                :key="description"
+              >
+                {{ description }}
+              </li>
+            </ul>
+
+            <p>사용 기술: {{ project.techStack.join(', ') }}</p>
+          </v-tab-item>
+        </v-tabs-items>
       </v-card-text>
       <v-card-actions
         ><v-spacer></v-spacer
@@ -31,11 +69,17 @@
 </template>
 
 <script>
-import { Vue, Component, Prop, Emit } from 'nuxt-property-decorator'
-import ProjectDialog from './ProjectDialog'
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import ProjectCard from './ProjectCard'
 
 @Component({
-  components: { ProjectDialog },
+  components: { ProjectCard },
+  watch: {
+    dialog(v) {
+      console.log(v)
+      if (v) this.currentProject = 'tab-' + this.projects[0].name
+    },
+  },
 })
 export default class CompanyDialog extends Vue {
   @Prop() value
@@ -46,10 +90,6 @@ export default class CompanyDialog extends Vue {
     this.$emit('input', value)
   }
 
-  @Emit('openProjectDialog') openProjectDialog(project) {
-    return project
-  }
-
   @Prop() name
   @Prop() description
   @Prop() url
@@ -57,6 +97,8 @@ export default class CompanyDialog extends Vue {
   @Prop() startAt
   @Prop() endAt
   @Prop() projects
+
+  currentProject = ''
 }
 </script>
 
