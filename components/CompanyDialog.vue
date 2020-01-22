@@ -12,7 +12,7 @@
           {{ description }}
         </p>
 
-        <v-tabs dark v-model="currentProject">
+        <v-tabs v-model="currentProject" dark>
           <v-tab
             v-for="project in projects"
             :key="project.name"
@@ -76,7 +76,6 @@ import ProjectCard from './ProjectCard'
   components: { ProjectCard },
   watch: {
     dialog(v) {
-      console.log(v)
       if (v) this.currentProject = 'tab-' + this.projects[0].name
     },
   },
